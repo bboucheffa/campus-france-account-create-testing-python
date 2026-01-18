@@ -1,45 +1,44 @@
 pipeline {
     agent any
 
-    environment {
-        PYTHON = 'C:\\Python39\\python.exe'  // OU 'py'
-        VENV_PATH = "${WORKSPACE}\\venv"
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                echo 'Récupération du code...'
                 checkout scm
             }
         }
 
-        stage('Prérequis') {
+        stage('Setup') {
             steps {
-                script {
-                    echo 'Installation des dépendances...'
-                    bat '''
-                        if not exist %VENV_PATH% (
-                            %PYTHON% -m venv %VENV_PATH%
-                        )
-                        %VENV_PATH%\\Scripts\\activate
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
-                    '''
-                }
+                bat '''
+                    echo === TEST PYTHON ===
+                    py --version
+
+                    echo === CRÉATION VENV ===
+                    py -m venv venv --clear
+
+                    echo === ACTIVATION ===
+                    call venv\\Scripts\\activate.bat
+
+                    echo === PIP UPGRADE ===
+                    python -m pip install --upgrade pip
+
+                    echo === INSTALL PAQUETS ===
+                    pip install behave selenium webdriver-manager
+
+                    echo === TEST BEHAVE ===
+                    behave --version
+                '''
             }
         }
 
-        stage('Tests Behave') {
+        stage('Tests') {
             steps {
-                script {
-                    echo 'Lancement des tests Behave...'
-                    bat '''
-                        %VENV_PATH%\\Scripts\\activate
-                        cd features
-                        behave -f pretty --no-capture --no-capture-stderr
-                    '''
-                }
+                bat '''
+                    call venv\\Scripts\\activate.bat
+                    cd features
+                    behave -f pretty --no-capture --no-capture-stderr
+                '''
             }
         }
     }
