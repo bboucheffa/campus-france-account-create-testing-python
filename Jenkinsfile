@@ -23,7 +23,7 @@ pipeline {
                             %PYTHON% -m venv %VENV_PATH%
                         )
                         %VENV_PATH%\\Scripts\\activate
-                        pip install --upgrade pip
+                        python -m pip install --upgrade pip
                         pip install -r requirements.txt
                     '''
                 }
