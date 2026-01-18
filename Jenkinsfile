@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        // Configuration Python/Venv
-        PYTHON = '/usr/bin/python3'
-        VENV_PATH = "${WORKSPACE}/venv"
+        PYTHON = 'C:\\Python39\\python.exe'  // OU 'py'
+        VENV_PATH = "${WORKSPACE}\\venv"
     }
 
     stages {
@@ -18,12 +17,12 @@ pipeline {
         stage('Prérequis') {
             steps {
                 script {
-                    echo 'Installation des dépendances Python...'
-
-                    // Créer le venv si pas existant
-                    sh '''
-                        ${PYTHON} -m venv ${VENV_PATH} || true
-                        . ${VENV_PATH}/bin/activate
+                    echo 'Installation des dépendances...'
+                    bat '''
+                        if not exist %VENV_PATH% (
+                            %PYTHON% -m venv %VENV_PATH%
+                        )
+                        %VENV_PATH%\\Scripts\\activate
                         pip install --upgrade pip
                         pip install -r requirements.txt
                     '''
@@ -35,9 +34,8 @@ pipeline {
             steps {
                 script {
                     echo 'Lancement des tests Behave...'
-
-                    sh '''
-                        . ${VENV_PATH}/bin/activate
+                    bat '''
+                        %VENV_PATH%\\Scripts\\activate
                         cd features
                         behave -f pretty --no-capture --no-capture-stderr
                     '''
