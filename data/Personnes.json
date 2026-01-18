@@ -1,0 +1,24 @@
+[
+  {
+    "email": "badis@gmail.com",
+    "motDePasse": "badis1234",
+    "confirmationMotDePasse": "badis1234",
+    "nom": "boucheffa",
+    "prenom": "badis",
+    "paysDeNationalite": "Algerie",
+    "codePostal": "75020",
+    "ville": "Paris",
+    "telephone": "0605040302"
+  },
+  {
+    "email": "islam@gmail.com",
+    "motDePasse": "islam1234",
+    "confirmationMotDePasse": "islam1234",
+    "nom": "islam",
+    "prenom": "islam",
+    "paysDeNationalite": "Algerie",
+    "codePostal": "75020",
+    "ville": "Paris",
+    "telephone": "0605040302"
+  }
+]
