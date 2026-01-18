@@ -1,45 +1,26 @@
 pipeline {
     agent any
-
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Setup') {
+        stage('CampusFrance Tests') {
             steps {
                 bat '''
-                    echo === TEST PYTHON ===
-                    py --version
+                    echo "=== PYTHON OK ==="
+                    python --version
 
-                    echo === CRÉATION VENV ===
-                    py -m venv venv --clear
-
-                    echo === ACTIVATION ===
+                    echo "=== VENV ==="
+                    python -m venv venv --clear
                     call venv\\Scripts\\activate.bat
 
-                    echo === PIP UPGRADE ===
-                    python -m pip install --upgrade pip
-
-                    echo === INSTALL PAQUETS ===
+                    echo "=== INSTALL ==="
+                    pip install --upgrade pip
                     pip install behave selenium webdriver-manager
 
-                    echo === TEST BEHAVE ===
-                    behave --version
-                '''
-            }
-        }
-
-        stage('Tests') {
-            steps {
-                bat '''
-                    call venv\\Scripts\\activate.bat
+                    echo "=== TESTS ==="
                     cd features
                     behave -f pretty --no-capture --no-capture-stderr
                 '''
             }
         }
     }
+
 }
