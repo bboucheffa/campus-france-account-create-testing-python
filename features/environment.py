@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from manage_data.read_data import read_data_from_json
 
 def before_all(context):
-    print("🚀 Lancement du navigateur Chrome...")
+    #Je pense faut ajouter les options pour le webdriver (mode headless, no sandbox ...etc)
 
     # Installer et configurer ChromeDriver
     service = Service(ChromeDriverManager().install())
