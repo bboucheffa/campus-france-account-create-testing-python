@@ -1,30 +1,25 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11'
-        }
-    }
+    agent any
+
     stages {
         stage('CampusFrance Tests') {
             steps {
                 bat '''
-                    echo "=== PYTHON OK ==="
-                    python --version
+                    echo === PYTHON ===
+                    C:\\Python\\Python39\\python.exe --version
 
-                    echo "=== VENV ==="
-                    python -m venv venv --clear
+                    echo === VENV ===
+                    C:\\Python\\Python39\\python.exe -m venv venv --clear
                     call venv\\Scripts\\activate.bat
 
-                    echo "=== INSTALL ==="
-                    pip install --upgrade pip
-                    pip install behave selenium webdriver-manager
+                    echo === INSTALL ===
+                    python -m pip install --upgrade pip
+                    python -m pip install behave selenium webdriver-manager
 
-                    echo "=== TESTS ==="
-                    cd features
-                    behave -f pretty --no-capture --no-capture-stderr
+                    echo === TESTS ===
+                    python -m behave features -f pretty --no-capture --no-capture-stderr
                 '''
             }
         }
     }
-
 }
